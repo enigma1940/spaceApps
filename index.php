@@ -24,27 +24,51 @@
       </div>
       <div class="col m10">
         <div class="col m12">
-          <div class="col m4 z-depth-2">Régions</div>
-          <div class="col m4 z-depth-2">Plantes</div>
-          <div class="col m4 z-depth-2">Archives</div>
+          <div class="col m4 btn carte waves-effect waves-light blue darken-4">Carte</div>
+          <div class="col m4 btn plantes waves-effect waves-light blue darken-4" >Plantes</div>
+          <div class="col m4 btn waves-effect waves-light blue darken-4">Archives</div>
         </div>
-        <div class="col m12 grey lighten-3" id="map" style="height: 480px;">
-          <?php
-            /*$request = 'http://api.openweathermap.org/data/2.5/weather?APPID=f0edc1c8a876b45ec0727fda2602c22a&q=Titao';
-            $response  = file_get_contents($request);
-            $obj  = json_decode($response);
-            echo '<pre>';
-            print_r($obj);
-            echo '</pre>';*/
-          ?>
+        <div class="col m12 grey lighten-3" id="map" style="height: 480px;"></div>
+        <div class="col m12 les_plantes" style="display: none;">
+          <center><h4>Pomme de terre</h4></center>
+          <h5>le besoin en eau</h5>
+          <p>
+            Le besoin en eau est important au moment de la tubérisation environ 50 jours après plantation jusqu'à 120 jours après plantation.
+Attention à l’excès d’eau car il y a risque de pourrissement des tubercules et faire attention lors de l'arrêt brusque des pluies car il y a risque que la pomme de terre n’atteigne pas la maturation.
+          </p>
+          <h5>Calendrier cultural : </h5>
+          <table>
+            <tr><td rowspan="2">Pomme de terre</td><td>Date de semis</td><td>Mi février à mi Mars</td><td>Avril à mai</td><td>Mi mars à mi Avril</td></tr>
+            <tr><td>Date de récolte</td><td>Début juin à septembre</td><td>Août à Octobre</td><td>Mi juillet fin Septembre</td></tr>
+          </table>
+          <center><h4>Oignon</h4></center>
+          <p>DIFFERENTS TYPES D’OIGNONS : Oignons de consommation en frais (courte durée dans le sol), les oignons de conservation (longue durée dans le sol)</p>
+          <p><span style="color: rgb(13, 141, 223); font-size: 18px;">Sol : </span> peu profond, Les sols meuble, drainé se réchauffant vite. Les sols sableux peuvent convenir à condition que l’alimentation hydrique soit maîtrisée</p>
+          <p><span style="color: rgb(13, 141, 223); font-size: 18px;">Eau : </span> L'oignon n'a pas besoin de grandes quantités d'eau pour se développer.Cette règle comprend une exception en cas de fortes chaleurs ou de périodes de sécheresse. Une faible pluviométrie est alors vivement conseillé dans ces situations.</p>
+          <p><span style="color: rgb(13, 141, 223); font-size: 18px;">Exigences thermiques : </span>La température optimale de germination est de 15-18°C.La levée dure de 8 à 20 jours selon les conditions climatiques, elle est lente aux températures basses 30 jours </p>
+          <p><span style="color: rgb(13, 141, 223); font-size: 18px;">Calendrier cultural : </span>Le cycle varie de 90 jours à 150 jours</p>
+          <table>
+            <tr><td rowspan="2">Oignon</td><td>Oignons de consommation en frais</td><td></td>Semis en pleine terre : février-avril<br />Récolte : juillet-septembre</tr>
+            <tr><td>les oignons de conservation</td><td>Semis en pleine terre : mi-août-septembre<br />Récolte : avril-mai de l'année suivante</td></tr>
+          </table>
         </div>
       </div>
     </div>
+    <style>td{border: solid 1px rgb(6, 121, 129);}</style>
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/materialize.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2cfs5oXFbTLd6TAUKj3TRTJi0YPUIKF4&callback=initMap"></script>
     <script>
+    $('.plantes').click(function(){
+      $('#map').css('display','none');
+      $('.les_plantes').toggle('drop');
+    });
+    $('.carte').click(function(){
+      $('.les_plantes').css('display','none');
+      //$('#map').css('display','block');});
+      $('#map').toggle('drop');});
     function initMap() {
       //var uluru = {lng:-145.00,  lat: -89.00    };
 
@@ -80,7 +104,7 @@
             center: ouahigouya,
             radius: 30000
           });
-
+      var infowindow = new google.maps.InfoWindow();
       for(i=0; i<wtab.length; i++){
         var marker = new google.maps.Marker({
           position: wtab[i],
@@ -88,6 +112,10 @@
           animation: google.maps.Animation.DROP,
           icon: 'fonts/water2.png'
         });
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent('Culture possibles : <br />Oignon<br />Pomme de terre');
+            infowindow.open(map, this);
+          });
       }
     }
   </script>
