@@ -48,7 +48,7 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
           <p><span style="color: rgb(13, 141, 223); font-size: 18px;">Exigences thermiques : </span>La température optimale de germination est de 15-18°C.La levée dure de 8 à 20 jours selon les conditions climatiques, elle est lente aux températures basses 30 jours </p>
           <p><span style="color: rgb(13, 141, 223); font-size: 18px;">Calendrier cultural : </span>Le cycle varie de 90 jours à 150 jours</p>
           <table>
-            <tr><td rowspan="2">Oignon</td><td>Oignons de consommation en frais</td><td></td>Semis en pleine terre : février-avril<br />Récolte : juillet-septembre</tr>
+            <tr><td rowspan="2">Oignon</td><td>Oignons de consommation en frais</td><td>Semis en pleine terre : février-avril<br />Récolte : juillet-septembre</td></tr>
             <tr><td>les oignons de conservation</td><td>Semis en pleine terre : mi-août-septembre<br />Récolte : avril-mai de l'année suivante</td></tr>
           </table>
         </div>
@@ -98,7 +98,7 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
             strokeColor: '#00a3ff',
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: '#00d16d',
+            fillColor: 'rgb(7, 178, 184)',
             fillOpacity: 0.35,
             map: map,
             center: ouahigouya,
@@ -113,7 +113,7 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
           icon: 'fonts/water2.png'
         });
         google.maps.event.addListener(marker, 'click', function() {
-            infowindow.setContent('Culture possibles : <br />Oignon<br />Pomme de terre');
+            infowindow.setContent('<b>Point d\'eau a proximité</b><br />Culture possibles : <br />- Oignon<br />- Pomme de terre');
             infowindow.open(map, this);
           });
       }
