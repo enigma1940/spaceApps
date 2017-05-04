@@ -26,7 +26,7 @@
         <div class="col m12">
           <div class="col m4 btn carte waves-effect waves-light blue darken-4">Carte</div>
           <div class="col m4 btn plantes waves-effect waves-light blue darken-4" >Plantes</div>
-          <div class="col m4 btn waves-effect waves-light blue darken-4">Archives</div>
+          <div class="col m4 btn waves-effect waves-light blue darken-4">Prévisions</div>
         </div>
         <div class="col m12 grey lighten-3" id="map" style="height: 480px;"></div>
         <div class="col m12 les_plantes" style="display: none;">
@@ -87,7 +87,37 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
       var wtab = [w1,w2,w3,w4,w5,w6];
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
-        center: ouahigouya
+        center: ouahigouya,
+        styles:[{
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#515c6d'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+    featureType: 'landscape.natural.terrain',
+    elementType: 'labels.text.stroke',
+    stylers: [
+        { color: 'rgb(2, 163, 90)' }
+    ]
+},{
+    featureType: 'landscape.natural.landcover',
+    elementType: 'labels.text.fill',
+    stylers: [
+        { color: 'rgb(2, 163, 90)' }
+    ]
+          }
+          ]
+
       });
       var marker = new google.maps.Marker({
         position: ouahigouya,
@@ -95,17 +125,17 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
       });
 
       var cityCircle = new google.maps.Circle({
-            strokeColor: '#00a3ff',
+            strokeColor: '#00cc95',
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: 'rgb(7, 178, 184)',
+            fillColor: '#00cc95',
             fillOpacity: 0.35,
             map: map,
             center: ouahigouya,
             radius: 30000
           });
-      var infowindow = new google.maps.InfoWindow();
-      for(i=0; i<wtab.length; i++){
+      //var infowindow = new google.maps.InfoWindow();
+      /*for(i=0; i<wtab.length; i++){
         var marker = new google.maps.Marker({
           position: wtab[i],
           map: map,
@@ -116,8 +146,40 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
             infowindow.setContent('<b>Point d\'eau a proximité</b><br />Culture possibles : <br />- Oignon<br />- Pomme de terre');
             infowindow.open(map, this);
           });
-      }
+      }*/
+      /*var polygon = [
+        {lat:13.717599, lng: -2.478470},
+{lat:13.632200, lng: -2.611336},
+{lat:13.561789, lng: -2.663864},
+{lat:13.492025, lng: -2.575974},
+{lat:13.366465, lng: -2.522072},
+{lat:13.369137, lng: -2.363457},
+{lat:13.441274, lng: -2.249817},
+{lat:13.414559, lng: -2.114548},
+{lat:13.412890, lng: -2.047943},
+{lat:13.430589, lng: -1.903061},
+{lat:13.575087, lng: -1.932587},
+{lat:13.533752, lng: -2.049660},
+{lat:13.562456, lng: -2.209648},
+{lat:13.643210, lng: -2.315392},
+{lat:13.679907, lng: -2.431091},
+{lat:13.693250, lng: -2.500099},
+{lat:13.717599, lng: -2.478470}
+        ];
+        var yatenga = new google.maps.Polygon({
+            paths: polygon,
+            strokeColor: '#00cc95',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#00cc95',
+            fillOpacity: 0.35
+          });
+          yatenga.setMap(map);*/
     }
+
+
+
+
   </script>
   <script>
 
