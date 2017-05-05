@@ -30,6 +30,12 @@
         </div>
         <div class="col m12 grey lighten-3" id="map" style="height: 480px;"></div>
         <div class="col m12 les_plantes" style="display: none;">
+          <form class="col m12">
+            <div class="col m10 input-field">
+              <input type="text" class="search" id="search" /><label for="search">Rechercher une plante</label>
+            </div>
+            <button type="submit" class="btn grey darken-4 col m2">Recherche</button>
+          </form>
           <center><h4>Pomme de terre</h4></center>
           <h5>le besoin en eau</h5>
           <p>
@@ -126,6 +132,7 @@
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
         center: ouahigouya,
+        mapTypeId: 'satellite',
         styles:[{
               featureType: 'water',
               elementType: 'geometry',
