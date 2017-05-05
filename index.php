@@ -26,7 +26,7 @@
         <div class="col m12">
           <div class="col m4 btn carte waves-effect waves-light blue darken-4">Carte</div>
           <div class="col m4 btn plantes waves-effect waves-light blue darken-4" >Plantes</div>
-          <div class="col m4 btn prevision waves-effect waves-light blue darken-4">Prévisions</div>
+          <div class="col m4 btn prevision waves-effect waves-light blue darken-4">Précipitations</div>
         </div>
         <div class="col m12 grey lighten-3" id="map" style="height: 480px;"></div>
         <div class="col m12 les_plantes" style="display: none;">
@@ -59,14 +59,18 @@
         </div>
 
         <div class="col m12 previsionArea" style="display: none;">
+          <div class="col m12 purple darken-2 bg" style="margin-top: 20px;">
+            <div class="waves-effect waves-light seeAll" style="line-height: 45px; color: #fff;">Observation globale</div>
+            <div class="waves-effect waves-light seeOther" style="line-height: 45px; color: #fff; border-left: solid 1px #fff; margin-left: 20px;">Observation rapprochée</div>
+          </div>
           <?php
             try{$bdd = new PDO('mysql:host=localhost;dbname=alertagricole', 'root', '');}
             catch(Exception $e){die('Error '.$e->getMessage());}
-            $req=$bdd->query('SELECT Year, avg(Precip_Normal) as precip FROM temperatureprecipitation WHERE VILLES="OUAHIGOUYA" AND Month between 5 AND 10 AND Year<2017 GROUP BY Year');
+            $req=$bdd->query('SELECT Month, avg(Precip_Normal) as precip FROM temperatureprecipitation WHERE VILLES="OUAHIGOUYA" AND Year=2000 GROUP BY Month');
             $j = array();
             $k='[';
             while($data=$req->fetch()){
-              if($k=='[')$k=$k.'['.$data['Year'].','.$data['precip'].']'; else $k=$k.',['.$data['Year'].','.$data['precip'].']';
+              if($k=='[')$k=$k.'['.$data['Month'].','.$data['precip'].']'; else $k=$k.',['.$data['Month'].','.$data['precip'].']';
 
               //if($y==''){$y=$data['Year'];}else{$y=$y.','.$data['Year'];}
               //if($x==''){$x=$data['precip'];}else{$x=$x.','.$data['precip'];}
@@ -76,7 +80,15 @@
             echo '<div class="iciy"></div>';
 
            ?>
-           <div id="diag" class="col m12" style="height: 480px;"></div>
+           <div id="diag" class="col m12 all" style="height: 480px;"></div>
+           <div class="col m12 other" style="display: none;">
+             <div class="col m6" id="diag1" style="height: 300px;"></div>
+             <div class="col m6" id="diag2" style="height: 300px;"></div>
+             <div class="col m6" id="diag3" style="height: 300px;"></div>
+             <div class="col m6" id="diag4" style="height: 300px;"></div>
+             <div class="col m6" id="diag5" style="height: 300px;"></div>
+             <div class="col m6" id="diag6" style="height: 300px;"></div>
+           </div>
         </div>
 
 
@@ -92,6 +104,15 @@
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2cfs5oXFbTLd6TAUKj3TRTJi0YPUIKF4&callback=initMap"></script>
     <script>
+    $('.seeAll').click(function(){
+      $('.other').css('display','none');
+      $('.all').toggle('drop');
+    });
+    $('.seeOther').click(function(){
+      $('.all').css('display', 'none');
+      $('.other').toggle('drop');
+    });
+
     $('.prevision').click(function(){
       $('#map').css('display','none');
       $('.les_plantes').css('display','none');
