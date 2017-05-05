@@ -26,15 +26,14 @@
         <div class="col m12">
           <div class="col m4 btn carte waves-effect waves-light blue darken-4">Carte</div>
           <div class="col m4 btn plantes waves-effect waves-light blue darken-4" >Plantes</div>
-          <div class="col m4 btn waves-effect waves-light blue darken-4">Prévisions</div>
+          <div class="col m4 btn prevision waves-effect waves-light blue darken-4">Prévisions</div>
         </div>
         <div class="col m12 grey lighten-3" id="map" style="height: 480px;"></div>
         <div class="col m12 les_plantes" style="display: none;">
           <center><h4>Pomme de terre</h4></center>
           <h5>le besoin en eau</h5>
           <p>
-            Le besoin en eau est important au moment de la tubérisation environ 50 jours après plantation jusqu'à 120 jours après plantation.
-Attention à l’excès d’eau car il y a risque de pourrissement des tubercules et faire attention lors de l'arrêt brusque des pluies car il y a risque que la pomme de terre n’atteigne pas la maturation.
+            Le besoin en eau est important au moment de la tubérisation environ 50 jours après plantation jusqu'à 120 jours après plantation. Attention à l’excès d’eau car il y a risque de pourrissement des tubercules et faire attention lors de l'arrêt brusque des pluies car il y a risque que la pomme de terre n’atteigne pas la maturation.
           </p>
           <h5>Calendrier cultural : </h5>
           <table>
@@ -52,22 +51,56 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
             <tr><td>les oignons de conservation</td><td>Semis en pleine terre : mi-août-septembre<br />Récolte : avril-mai de l'année suivante</td></tr>
           </table>
         </div>
+
+        <div class="col m12 previsionArea" style="display: none;">
+          <?php
+            try{$bdd = new PDO('mysql:host=localhost;dbname=alertagricole', 'root', '');}
+            catch(Exception $e){die('Error '.$e->getMessage());}
+            $req=$bdd->query('SELECT Year, avg(Precip_Normal) as precip FROM temperatureprecipitation WHERE VILLES="OUAHIGOUYA" AND Month between 5 AND 10 AND Year<2017 GROUP BY Year');
+            $j = array();
+            $k='[';
+            while($data=$req->fetch()){
+              if($k=='[')$k=$k.'['.$data['Year'].','.$data['precip'].']'; else $k=$k.',['.$data['Year'].','.$data['precip'].']';
+
+              //if($y==''){$y=$data['Year'];}else{$y=$y.','.$data['Year'];}
+              //if($x==''){$x=$data['precip'];}else{$x=$x.','.$data['precip'];}
+            }
+            $k=$k.']';
+            echo '<div class="icix" style="display: none;">'.$k.'</div>';
+            echo '<div class="iciy"></div>';
+
+           ?>
+           <div id="diag" class="col m12" style="height: 480px;"></div>
+        </div>
+
+
+
       </div>
     </div>
     <style>td{border: solid 1px rgb(6, 121, 129);}</style>
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/materialize.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2cfs5oXFbTLd6TAUKj3TRTJi0YPUIKF4&callback=initMap"></script>
     <script>
+    $('.prevision').click(function(){
+      $('#map').css('display','none');
+      $('.les_plantes').css('display','none');
+      $('.previsionArea').toggle('drop');
+
+    });
     $('.plantes').click(function(){
       $('#map').css('display','none');
+      $('.previsionArea').css('display','none');
       $('.les_plantes').toggle('drop');
     });
     $('.carte').click(function(){
       $('.les_plantes').css('display','none');
       //$('#map').css('display','block');});
+      $('.previsionArea').css('display','none');
       $('#map').toggle('drop');});
     function initMap() {
       //var uluru = {lng:-145.00,  lat: -89.00    };
@@ -84,7 +117,12 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
       var w4 = {lat: 13.68824, lng: -2.220523};
       var w5 = {lat: 13.780882, lng: -2.147867};
       var w6 = {lat: 13.799548, lng: -2.067663};
-      var wtab = [w1,w2,w3,w4,w5,w6];
+
+      var wtab = [w1,w2,w3,w4,w5,w6,{lat:13.757732, lng:-2.832275},
+{lat:13.443744, lng:-1.946972},
+{lat:13.132066, lng:-2.134332},
+{lat:13.138739, lng:-2.113845},
+{lat:13.129421, lng:-2.123033}];
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
         center: ouahigouya,
@@ -134,8 +172,8 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
             center: ouahigouya,
             radius: 30000
           });
-      //var infowindow = new google.maps.InfoWindow();
-      /*for(i=0; i<wtab.length; i++){
+      var infowindow = new google.maps.InfoWindow();
+      for(i=0; i<wtab.length; i++){
         var marker = new google.maps.Marker({
           position: wtab[i],
           map: map,
@@ -146,7 +184,7 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
             infowindow.setContent('<b>Point d\'eau a proximité</b><br />Culture possibles : <br />- Oignon<br />- Pomme de terre');
             infowindow.open(map, this);
           });
-      }*/
+      }
       /*var polygon = [
         {lat:13.717599, lng: -2.478470},
 {lat:13.632200, lng: -2.611336},
@@ -181,8 +219,6 @@ Attention à l’excès d’eau car il y a risque de pourrissement des tubercule
 
 
   </script>
-  <script>
-
-  </script>
+  <script src="js/home.js"></script>
   </body>
 </html>
